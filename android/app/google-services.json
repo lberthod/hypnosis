@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "908775645107",
+    "firebase_url": "https://hypnose-2b42c.firebaseio.com",
+    "project_id": "hypnose-2b42c",
+    "storage_bucket": "hypnose-2b42c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908775645107:android:ec9ecc7122903828",
+        "android_client_info": {
+          "package_name": "com.arkathon.hypnose"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908775645107-93e7ebvq0bmff2bnoakhdfa734hs39aa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLQ80PQjYXZBmS0OB3gqbzXhET21ufvSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908775645107-93e7ebvq0bmff2bnoakhdfa734hs39aa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
