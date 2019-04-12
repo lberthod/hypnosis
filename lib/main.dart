@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hypnosis/ui/login.dart';
+import 'package:hypnosis/ui/audio.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginView(),
+      home: AudioView(),
     );
   }
 }
