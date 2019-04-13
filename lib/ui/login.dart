@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hypnosis/utils.dart';
 import 'package:hypnosis/widets.dart';
+import 'package:hypnosis/state_container.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
 
 class LoginView extends StatefulWidget {
   final Widget child;
@@ -66,11 +68,17 @@ class _LoginViewState extends State<LoginView> {
   void _register() async {
     FirebaseUser user = await AuthUtil.handleSignUp(signUpemailController.text,
             signUpPasswordController.text.toString())
-        .then((FirebaseUser user) => user)
-        .catchError((error) =>
-            WidgetUtils.displaySnackBar(_scaffoldKey.currentState, error));
+        .then((FirebaseUser user) {
+      return user;
+    }).catchError((error) => WidgetUtils.displaySnackBar(
+            _scaffoldKey.currentState, error, Colors.red));
     if (user != null) {
-      WidgetUtils.displaySnackBar(_scaffoldKey.currentState, "Registered");
+      Firestore.instance
+          .collection('user-chat')
+          .document(user.uid)
+          .setData({'email': user.email});
+      StateContainer.of(context).updateUserInfo(uid: user.uid);
+      Navigator.pushReplacementNamed(context, '/chat');
     }
   }
 
@@ -164,8 +172,6 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _buildSignUpView(BuildContext context) {
-    final Size _screenSize = MediaQuery.of(context).size;
-
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
