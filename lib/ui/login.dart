@@ -63,6 +63,8 @@ class _LoginViewState extends State<LoginView> {
             _scaffoldKey.currentState, error.toString(), Colors.red));
     if (user != null)
       WidgetUtils.displaySnackBar(_scaffoldKey.currentState, "Logged in");
+    StateContainer.of(context).updateUserInfo(uid: user.uid);
+    Navigator.pushReplacementNamed(context, '/agenda');
   }
 
   void _register() async {

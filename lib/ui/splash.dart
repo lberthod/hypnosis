@@ -25,7 +25,7 @@ class _SpashScreenState extends State<SpashScreen> {
       Navigator.pushReplacementNamed(context, '/login');
     } else {
       StateContainer.of(context).updateUserInfo(uid: userId);
-       Navigator.pushReplacementNamed(context, '/chat');
+       Navigator.pushReplacementNamed(context, '/agenda');
 
     //   Navigator.pushReplacement (
     //       context,
