@@ -8,6 +8,7 @@ import 'package:hypnosis/ui/login.dart';
 import 'package:hypnosis/ui/chat-screen.dart';
 import 'package:hypnosis/ui/admin-chat-list.dart';
 import 'package:hypnosis/state_container.dart';
+import 'package:hypnosis/ui/audio.dart';
 
 void main() => runApp(StateContainer(child: MyApp()));
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SpashScreen(),
+      home: AudioView(),
       routes: {
         '/login': (context) => LoginView(),
         '/chat': (context) => ChatList(),

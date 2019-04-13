@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AudioView extends StatefulWidget {
   final Widget child;
@@ -13,7 +14,7 @@ class AudioView extends StatefulWidget {
   AudioViewState createState() => AudioViewState();
 }
 
-class AudioViewState extends State<AudioView>{
+class AudioViewState extends State<AudioView> {
   bool _isRecording = false;
   bool _isPlaying = false;
   StreamSubscription _recorderSubscription;
@@ -21,6 +22,7 @@ class AudioViewState extends State<AudioView>{
   StreamSubscription _playerSubscription;
   FlutterSound flutterSound;
 
+  String localPath = '/storage/emulated/0/test.mp3';
   String _recorderTxt = '00:00:00';
   String _playerTxt = '00:00:00';
   double _dbLevel;
@@ -37,28 +39,23 @@ class AudioViewState extends State<AudioView>{
     initializeDateFormatting();
   }
 
-  void startRecorder() async{
+  void startRecorder() async {
     try {
-      String path = await flutterSound.startRecorder(null);
+      String path = await flutterSound.startRecorder(localPath);
       print('startRecorder: $path');
 
       _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
         DateTime date = new DateTime.fromMillisecondsSinceEpoch(
             e.currentPosition.toInt(),
             isUtc: true);
-        String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
-
-        this.setState(() {
-          this._recorderTxt = txt.substring(0, 8);
-        });
       });
       _dbPeakSubscription =
           flutterSound.onRecorderDbPeakChanged.listen((value) {
-            print("got update -> $value");
-            setState(() {
-              this._dbLevel = value;
-            });
-          });
+        print("got update -> $value");
+        setState(() {
+          this._dbLevel = value;
+        });
+      });
 
       this.setState(() {
         this._isRecording = true;
@@ -68,7 +65,7 @@ class AudioViewState extends State<AudioView>{
     }
   }
 
-  void stopRecorder() async{
+  void stopRecorder() async {
     try {
       String result = await flutterSound.stopRecorder();
       print('stopRecorder: $result');
@@ -85,12 +82,23 @@ class AudioViewState extends State<AudioView>{
       this.setState(() {
         this._isRecording = false;
       });
+
+      final File file = await File(localPath);
+      final StorageReference ref =
+          FirebaseStorage.instance.ref().child('audio').child('audio.mp3');
+      ref.putFile(
+        file,
+        StorageMetadata(
+          contentLanguage: 'en',
+          customMetadata: <String, String>{'activity': 'test'},
+        ),
+      );
     } catch (err) {
       print('stopRecorder error: $err');
     }
   }
 
-  void startPlayer() async{
+  void startPlayer() async {
     String path = await flutterSound.startPlayer(null);
     await flutterSound.setVolume(1.0);
     print('startPlayer: $path');
@@ -100,7 +108,6 @@ class AudioViewState extends State<AudioView>{
         if (e != null) {
           slider_current_position = e.currentPosition;
           max_duration = e.duration;
-
 
           DateTime date = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
@@ -117,7 +124,7 @@ class AudioViewState extends State<AudioView>{
     }
   }
 
-  void stopPlayer() async{
+  void stopPlayer() async {
     try {
       String result = await flutterSound.stopPlayer();
       print('stopPlayer: $result');
@@ -134,17 +141,17 @@ class AudioViewState extends State<AudioView>{
     }
   }
 
-  void pausePlayer() async{
+  void pausePlayer() async {
     String result = await flutterSound.pausePlayer();
     print('pausePlayer: $result');
   }
 
-  void resumePlayer() async{
+  void resumePlayer() async {
     String result = await flutterSound.resumePlayer();
     print('resumePlayer: $result');
   }
 
-  void seekToPlayer(int milliSecs) async{
+  void seekToPlayer(int milliSecs) async {
     int secs = Platform.isIOS ? milliSecs / 1000 : milliSecs;
 
     String result = await flutterSound.seekToPlayer(secs);
@@ -165,7 +172,7 @@ class AudioViewState extends State<AudioView>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 24.0, bottom:16.0),
+                  margin: EdgeInsets.only(top: 24.0, bottom: 16.0),
                   child: Text(
                     this._recorderTxt,
                     style: TextStyle(
@@ -174,11 +181,13 @@ class AudioViewState extends State<AudioView>{
                     ),
                   ),
                 ),
-                _isRecording ? LinearProgressIndicator(
-                  value: 100.0 / 160.0 * (this._dbLevel ?? 1) / 100,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                  backgroundColor: Colors.red,
-                ) : Container()
+                _isRecording
+                    ? LinearProgressIndicator(
+                        value: 100.0 / 160.0 * (this._dbLevel ?? 1) / 100,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                        backgroundColor: Colors.red,
+                      )
+                    : Container()
               ],
             ),
             Row(
@@ -195,9 +204,7 @@ class AudioViewState extends State<AudioView>{
                         this.stopRecorder();
                       },
                       padding: EdgeInsets.all(8.0),
-                      child:
-                      Text("ds"),
-
+                      child: Text("ds"),
                     ),
                   ),
                 ),
@@ -210,7 +217,7 @@ class AudioViewState extends State<AudioView>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 60.0, bottom:16.0),
+                  margin: EdgeInsets.only(top: 60.0, bottom: 16.0),
                   child: Text(
                     this._playerTxt,
                     style: TextStyle(
@@ -280,12 +287,10 @@ class AudioViewState extends State<AudioView>{
                     value: slider_current_position,
                     min: 0.0,
                     max: max_duration,
-                    onChanged: (double value) async{
+                    onChanged: (double value) async {
                       await flutterSound.seekToPlayer(value.toInt());
                     },
-                    divisions: max_duration.toInt()
-                )
-            )
+                    divisions: max_duration.toInt()))
           ],
         ),
       ),
