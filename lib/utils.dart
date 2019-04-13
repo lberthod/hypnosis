@@ -1,18 +1,5 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
-Color arrayToColour(List<int> color){
-  return Color.fromRGBO(color[0], color[1], color[2], 1);
-}
-
-List<int> colorToArray(Color c){
-    List<int> color = new List<int>();
-    color.insert(0, c.red);
-    color.insert(1, c.green);
-    color.insert(2, c.blue);
-    return color;
-}
 
 class AuthUtil {
 
@@ -59,6 +46,7 @@ class AuthUtil {
 
   static Future<Null> handleSignOut() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
+    
     await auth.signOut();
   }
 }
