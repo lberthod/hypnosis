@@ -90,7 +90,9 @@ class AgendaState extends State<AgendaView>{
           .document(user.uid)
           .collection("rdv")
           .add({
-        "Date": rdv,
+        "day": rdv.day,
+        "month" : rdv.month,
+        "year" : rdv.year,
         "Text": infoRDV.text,
 
       });
@@ -102,8 +104,25 @@ class AgendaState extends State<AgendaView>{
                     color: Colors.white
                 ),)
 
-    ),
 
+    ),
+              new Padding(padding: EdgeInsets.all(8.0)),
+
+              new MaterialButton( height: 50.0,
+                  color: Colors.green,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/rdvlist');
+
+                  },
+                  child:
+                  new Text("GoList",
+                    style: new TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.white
+                    ),)
+
+
+              ),
 
           ],
           ),

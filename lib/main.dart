@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hypnosis/ui/agenda.dart';
+import 'package:hypnosis/ui/rdvlist.dart';
 
 import 'package:hypnosis/ui/splash.dart';
 import 'package:hypnosis/ui/login.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginView(),
         '/chat': (context) => ChatList(),
         '/agenda': (context) => AgendaView(),
+        '/rdvlist': (context) => rdvlistView(),
 
       },
 

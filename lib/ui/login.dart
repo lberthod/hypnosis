@@ -64,7 +64,7 @@ class _LoginViewState extends State<LoginView> {
     if (user != null)
       WidgetUtils.displaySnackBar(_scaffoldKey.currentState, "Logged in");
     StateContainer.of(context).updateUserInfo(uid: user.uid);
-    Navigator.pushReplacementNamed(context, '/agenda');
+    Navigator.pushReplacementNamed(context, '/rdvlist');
   }
 
   void _register() async {
