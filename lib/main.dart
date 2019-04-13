@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:hypnosis/ui/splash.dart';
 import 'package:hypnosis/ui/login.dart';
 import 'package:hypnosis/ui/chat-screen.dart';
@@ -6,6 +7,7 @@ import 'package:hypnosis/ui/admin-chat-list.dart';
 import 'package:hypnosis/state_container.dart';
 
 void main() => runApp(StateContainer(child: MyApp()));
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginView(),
         '/chat': (context) => ChatList(),
       },
+
     );
   }
 }
