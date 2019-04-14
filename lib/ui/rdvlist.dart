@@ -56,16 +56,19 @@ class rdvListState extends State<rdvlistView>{
 
       title: 'List of rdv',
       home: Scaffold(
-        body: Container(
-          // color: Colors.blue,
-          height: double.infinity,// provides unbounded height constraints for the child container
-          width: double.infinity,// provides unbounded width constraints for the child container
 
-          child: new Column(
+        body: SingleChildScrollView(
 
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+        scrollDirection: Axis.vertical,
+        child: new Column(
+        children: <Widget>[
+          new Padding(padding: EdgeInsets.all(15.0)),
+
+          new Text(
+            'Liste des séances du : Patient X',
+            style: new TextStyle(
+                fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
               StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
                     .collection('user-agenda')
@@ -99,9 +102,6 @@ class rdvListState extends State<rdvlistView>{
                 },
               ),
 
-              new Text(" List de RDV"),
-
-              new Padding(padding: EdgeInsets.all(8.0)),
               new MaterialButton(
                   height: 50.0,
                   color: Colors.green,
@@ -109,15 +109,14 @@ class rdvListState extends State<rdvlistView>{
                     Navigator.pushNamed(context, '/agenda');
                   },
                   child:
-                  new Text("Choisir une date",
+                  new Text("Ajouter une séance",
                     style: new TextStyle(
                         fontSize: 18.0,
                         color: Colors.white
                     ),)
 
               ),
-              new Padding(padding: EdgeInsets.all(8.0)),
-              new Text(" Date Choisie : "),
+
 
 
 
@@ -127,6 +126,7 @@ class rdvListState extends State<rdvlistView>{
         ),
       ),
     );
+
   }
 }
 

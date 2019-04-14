@@ -85,7 +85,7 @@ class AudioViewState extends State<AudioView> {
 
       final File file = await File(localPath);
       final StorageReference ref =
-          FirebaseStorage.instance.ref().child('audio').child('audio.mp3');
+          FirebaseStorage.instance.ref().child('audio').child('audios.mp3');
       ref.putFile(
         file,
         StorageMetadata(
@@ -204,7 +204,7 @@ class AudioViewState extends State<AudioView> {
                         this.stopRecorder();
                       },
                       padding: EdgeInsets.all(8.0),
-                      child: Text("ds"),
+                      child: Text("dss"),
                     ),
                   ),
                 ),

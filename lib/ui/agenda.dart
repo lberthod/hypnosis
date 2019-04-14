@@ -111,7 +111,7 @@ class AgendaState extends State<AgendaView>{
               new MaterialButton( height: 50.0,
                   color: Colors.green,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/quiz');
+                    Navigator.pushNamed(context, '/rdvlist');
 
                   },
                   child:

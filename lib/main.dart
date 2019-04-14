@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hypnosis/ui/agenda.dart';
 import 'package:hypnosis/ui/rdvlist.dart';
 import 'package:hypnosis/ui/quiz.dart';
+import 'package:hypnosis/ui/choix.dart';
 
 import 'package:hypnosis/ui/splash.dart';
 import 'package:hypnosis/ui/login.dart';
@@ -32,13 +33,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: AudioView(),
+      home: ChoixView(),
       routes: {
         '/login': (context) => LoginView(),
         '/chat': (context) => ChatList(),
         '/agenda': (context) => AgendaView(),
         '/rdvlist': (context) => rdvlistView(),
         '/quiz': (context) => Quiz1(),
+        '/choix': (context) => ChoixView(),
 
       },
 
